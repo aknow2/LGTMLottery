@@ -2,7 +2,7 @@ require 'octokit'
 
 token = ENV['GITHUB_TOKEN']
 repo = ENV['GITHUB_REPOSITORY']
-pr_number = ENV['PULL_REQUEST_NUMBER']
+pr_number = ENV['ITEM_NUMBER']
 
 
 class ImageLottery
