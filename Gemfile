@@ -1,4 +1,4 @@
 source "https://rubygems.org"
+ruby '3.2.2'
 
-gem 'octokit'
-
+gem 'octokit', '~> 8.0'
