@@ -1,0 +1,21 @@
+name: 'LGTM Lottery'
+description: 'Posts a random LGTM image to PR or Issue comments'
+
+inputs:
+  github-token:
+    description: 'GitHub token for authentication'
+    required: true
+  repository:
+    description: 'The repository to run the action on'
+    required: true
+  item-number:
+    description: 'Pull Request or Issue number'
+    required: true
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    GITHUB_TOKEN: ${{ inputs.github-token }}
+    GITHUB_REPOSITORY: ${{ inputs.repository }}
+    ITEM_NUMBER: ${{ inputs.item-number }}
