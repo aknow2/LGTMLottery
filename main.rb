@@ -2,7 +2,7 @@ require 'octokit'
 
 token = ENV['GITHUB_TOKEN']
 repo = ENV['GITHUB_REPOSITORY']
-pr_number = ENV['ITEM_NUMBER']
+item_number = ENV['ITEM_NUMBER']
 
 
 class ImageLottery
@@ -37,5 +37,5 @@ if __FILE__ == $0
   lottery = ImageLottery.new("images")
 
   image = lottery.hit
-  client.add_comment(repo, pr_number, "![image](#{lottery.hit})")
+  client.add_comment(repo, item_number, "![image](#{lottery.hit})")
 end
