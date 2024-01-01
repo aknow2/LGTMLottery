@@ -3,6 +3,6 @@ FROM ruby:3.2.2
 WORKDIR /app
 COPY . /app
 
-RUN gem install octokit
+RUN bundle install
 
 ENTRYPOINT ["ruby", "main.rb"]
