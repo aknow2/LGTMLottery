@@ -33,6 +33,11 @@ class ImageLottery
 end
 
 if __FILE__ == $0
+  event_path = ENV['GITHUB_EVENT_PATH']
+  event_data = JSON.parse(File.read(event_path))
+
+  puts "Event Data:"
+  puts JSON.pretty_generate(event_data)
   client = Octokit::Client.new(access_token: token)
   lottery = ImageLottery.new("images")
 
