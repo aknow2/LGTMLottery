@@ -34,7 +34,7 @@ end
 
 class ActionsEvent
 
-    def initialize(event_loader: lambda)
+    def initialize(event_loader: lambda {{}})
       @event_data = event_loader.call
     end
 
