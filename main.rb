@@ -72,7 +72,8 @@ class CommentPatternValidator
 
   def should_post_image?
     comment_body = @action_event.get_comment_body
-    comment_body && comment_body.match(@pattern)
+    has_number = @action_event.get_pr_or_issue_number != nil
+    comment_body && comment_body.match(@pattern) && has_number
   end
 
 end
@@ -87,6 +88,7 @@ if __FILE__ == $0
 
     repo = event.get_repository
     image = lottery.hit
+    item_number = event.get_pr_or_issue_number
     client.add_comment(repo, item_number, '![image](#{lottery.hit})')
   end
 end
