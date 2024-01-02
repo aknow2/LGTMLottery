@@ -78,8 +78,8 @@ class CommentPatternValidator
 end
 
 if __FILE__ == $0
-  event = ActionsEvent.new(lambda { get_event_data_from_file })
-  validator = CommentPatternValidator.new(pattern, event)
+  event = ActionsEvent.new(event_loader:  lambda { get_event_data_from_file })
+  validator = CommentPatternValidator.new(pattern_str: pattern, action_event: event)
 
   if validator.should_post_image?
     client = Octokit::Client.new(access_token: token)
