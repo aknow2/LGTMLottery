@@ -85,6 +85,7 @@ if __FILE__ == $0
     client = Octokit::Client.new(access_token: token)
     lottery = ImageLottery.new('images')
 
+    repo = event.get_repository
     image = lottery.hit
     client.add_comment(repo, item_number, '![image](#{lottery.hit})')
   end
