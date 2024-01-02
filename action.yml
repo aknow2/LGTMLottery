@@ -1,5 +1,8 @@
 name: 'LGTM Lottery'
 description: 'Posts a random LGTM image to PR or Issue comments'
+branding:
+  icon: 'smile'
+  color: 'orange'
 
 inputs:
   github-token:
