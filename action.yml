@@ -1,7 +1,7 @@
 name: 'LGTM Lottery'
 description: 'Posts a random LGTM image to PR or Issue comments'
 branding:
-  icon: 'smile'
+  icon: 'box'
   color: 'orange'
 
 inputs:
