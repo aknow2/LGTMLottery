@@ -89,6 +89,6 @@ if __FILE__ == $0
     repo = event.get_repository
     image = lottery.hit
     item_number = event.get_pr_or_issue_number
-    client.add_comment(repo, item_number, '![image](#{lottery.hit})')
+    client.add_comment(repo, item_number, "![image](#{lottery.hit})")
   end
 end
