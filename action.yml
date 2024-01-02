@@ -5,17 +5,14 @@ inputs:
   github-token:
     description: 'GitHub token for authentication'
     required: true
-  repository:
-    description: 'The repository to run the action on'
-    required: true
-  item-number:
-    description: 'Pull Request or Issue number'
-    required: true
+  pattern:
+    description: 'Regular expression to match LGTM comments'
+    default: '^(lgtm|LGTM)$'
+    required: false
 
 runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
     GITHUB_TOKEN: ${{ inputs.github-token }}
-    GITHUB_REPOSITORY: ${{ inputs.repository }}
-    ITEM_NUMBER: ${{ inputs.item-number }}
+    PATTERN: ${{ inputs.pattern }}

@@ -6,17 +6,13 @@ on:
 
 jobs:
   lgtm-job:
-    if: contains(github.event.comment.body, 'lgtm')
     runs-on: ubuntu-latest
     permissions:
       issues: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Run Custom LGTM Action
         uses: ./
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          item-number: ${{ github.event.issue.number }}

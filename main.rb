@@ -1,8 +1,8 @@
 require 'octokit'
+require 'json'
 
 token = ENV['GITHUB_TOKEN']
-repo = ENV['GITHUB_REPOSITORY']
-item_number = ENV['ITEM_NUMBER']
+pattern = ENV['PATTERN']
 
 
 class ImageLottery
@@ -32,15 +32,60 @@ class ImageLottery
 
 end
 
-if __FILE__ == $0
+class ActionsEvent
+
+    def initialize(event_loader)
+      @event_data = event_loader()
+    end
+
+    def get_pr_or_issue_number
+      if @event_data['issue']
+        @event_data['issue']['number']
+      elsif @event_data['pull_request']
+        @event_data['pull_request']['number']
+      end
+    end
+
+    def get_comment_body
+      comment = @event_data['comment']
+      comment['body'] if comment
+    end
+
+    def get_repository
+      repository = @event_data['repository']
+      repository['full_name'] if repository
+    end
+
+end
+
+def get_event_data_from_file
   event_path = ENV['GITHUB_EVENT_PATH']
-  event_data = JSON.parse(File.read(event_path))
+  JSON.parse(File.read(event_path))
+end
 
-  puts "Event Data:"
-  puts JSON.pretty_generate(event_data)
-  client = Octokit::Client.new(access_token: token)
-  lottery = ImageLottery.new("images")
+class CommentPatternValidator
 
-  image = lottery.hit
-  client.add_comment(repo, item_number, "![image](#{lottery.hit})")
+  def initialize(pattern_str: String, action_event: ActionsEvent)
+    @pattern = Regexp.new(pattern_str)
+    @action_event = action_event
+  end
+
+  def should_post_image?
+    comment_body = @action_event.get_comment_body
+    comment_body && comment_body.match(@pattern)
+  end
+
+end
+
+if __FILE__ == $0
+  event = ActionsEvent.new(method(:get_event_data_from_file))
+  validator = CommentPatternValidator.new(pattern, event)
+
+  if validator.should_post_image?
+    client = Octokit::Client.new(access_token: token)
+    lottery = ImageLottery.new("images")
+
+    image = lottery.hit
+    client.add_comment(repo, item_number, "![image](#{lottery.hit})")
+  end
 end
