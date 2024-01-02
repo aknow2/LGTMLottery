@@ -34,8 +34,8 @@ end
 
 class ActionsEvent
 
-    def initialize(event_loader)
-      @event_data = event_loader()
+    def initialize(event_loader: lambda)
+      @event_data = event_loader.call
     end
 
     def get_pr_or_issue_number
@@ -78,14 +78,14 @@ class CommentPatternValidator
 end
 
 if __FILE__ == $0
-  event = ActionsEvent.new(method(:get_event_data_from_file))
+  event = ActionsEvent.new(lambda { get_event_data_from_file })
   validator = CommentPatternValidator.new(pattern, event)
 
   if validator.should_post_image?
     client = Octokit::Client.new(access_token: token)
-    lottery = ImageLottery.new("images")
+    lottery = ImageLottery.new('images')
 
     image = lottery.hit
-    client.add_comment(repo, item_number, "![image](#{lottery.hit})")
+    client.add_comment(repo, item_number, '![image](#{lottery.hit})')
   end
 end
