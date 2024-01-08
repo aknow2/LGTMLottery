@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Run Custom LGTM Action
-        uses: aknow2/LGTMLottery@v0.1
+        uses: aknow2/LGTMLottery@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pattern: '^(lgtm|LGTM)$' # this is optional. 
